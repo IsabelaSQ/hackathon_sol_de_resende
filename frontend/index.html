@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Sistemas - Resende Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="profile-section">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Avatar" class="profile-img">
+                <div class="profile-name">Resende - Tech</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <i class="fa-solid fa-chart-simple"></i> Analises
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-desktop"></i> Maquinas
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-lock"></i> Segurança
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-regular fa-user"></i> Usuarios
+                </a>
+            </nav>
+        </div>
+
+        <div class="settings-container">
+            <a href="#" class="nav-item" style="padding: 0;">
+                <i class="fa-solid fa-gear"></i> Configurações
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <h1 class="page-title">Monitor de Sistemas</h1>
+
+        <div class="status-cards">
+            <div class="status-card card-falha">
+                <div class="title"><i class="fa-solid fa-triangle-exclamation"></i> Falha</div>
+                <div class="number" id="count-falha">0</div>
+            </div>
+            <div class="status-card card-operacional">
+                <div class="title"><i class="fa-regular fa-circle-check"></i> Operacional</div>
+                <div class="number" id="count-operacional">6</div>
+            </div>
+            <div class="status-card card-manutencao">
+                <div class="title"><i class="fa-solid fa-wrench"></i> Manutenção</div>
+                <div class="number" id="count-manutencao">1</div>
+            </div>
+        </div>
+
+        <div class="machines-header">
+            <h2 class="machines-title">Maquinas Operando <span class="badge-count" id="badge-total">6</span></h2>
+            <button class="btn-add"><i class="fa-solid fa-plus"></i> Adicionar Maquina</button>
+        </div>
+
+        <div class="machines-grid" id="machine-container">
+            </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
