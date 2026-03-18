@@ -6,6 +6,7 @@
     <title>Monitor de Sistemas - Resende Tech</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,22 +19,18 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="#" class="nav-item active">
-                    <i class="fa-solid fa-chart-simple"></i> Analises
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fa-solid fa-desktop"></i> Maquinas
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fa-solid fa-lock"></i> Segurança
-                </a>
-                <a href="#" class="nav-item">
-                    <i class="fa-regular fa-user"></i> Usuarios
-                </a>
+                <a href="#" class="nav-item active"><i class="fa-solid fa-chart-simple"></i> Analises</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-desktop"></i> Maquinas</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-lock"></i> Segurança</a>
+                <a href="#" class="nav-item"><i class="fa-regular fa-user"></i> Usuarios</a>
             </nav>
         </div>
 
         <div class="settings-container">
+            <button id="theme-toggle" class="btn-theme">
+                <i class="fa-solid fa-moon"></i> Modo Escuro
+            </button>
+            <br><br>
             <a href="#" class="nav-item" style="padding: 0;">
                 <i class="fa-solid fa-gear"></i> Configurações
             </a>
@@ -43,18 +40,24 @@
     <main class="main-content">
         <h1 class="page-title">Monitor de Sistemas</h1>
 
-        <div class="status-cards">
-            <div class="status-card card-falha">
-                <div class="title"><i class="fa-solid fa-triangle-exclamation"></i> Falha</div>
-                <div class="number" id="count-falha">0</div>
+        <div class="dashboard-top">
+            <div class="status-cards">
+                <div class="status-card card-falha">
+                    <div class="title"><i class="fa-solid fa-triangle-exclamation"></i> Falha</div>
+                    <div class="number" id="count-falha">0</div>
+                </div>
+                <div class="status-card card-operacional">
+                    <div class="title"><i class="fa-regular fa-circle-check"></i> Operacional</div>
+                    <div class="number" id="count-operacional">6</div>
+                </div>
+                <div class="status-card card-manutencao">
+                    <div class="title"><i class="fa-solid fa-wrench"></i> Manutenção</div>
+                    <div class="number" id="count-manutencao">1</div>
+                </div>
             </div>
-            <div class="status-card card-operacional">
-                <div class="title"><i class="fa-regular fa-circle-check"></i> Operacional</div>
-                <div class="number" id="count-operacional">6</div>
-            </div>
-            <div class="status-card card-manutencao">
-                <div class="title"><i class="fa-solid fa-wrench"></i> Manutenção</div>
-                <div class="number" id="count-manutencao">1</div>
+
+            <div class="chart-container">
+                <canvas id="entropiaChart"></canvas>
             </div>
         </div>
 
@@ -65,7 +68,6 @@
 
         <div class="machines-grid" id="machine-container">
             </div>
-
     </main>
 
     <script src="script.js"></script>
