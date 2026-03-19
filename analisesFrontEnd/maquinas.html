@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máquinas - Resende Tech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/analisesFrontEnd/style.css">
+</head>
+<body>
+
+    <aside class="sidebar">
+        <div>
+            <div class="profile-section">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=256&q=80" alt="Avatar" class="profile-img">
+                <div class="profile-name">Resende - Tech</div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="/analisesFrontEnd/index.html" class="nav-item"><i class="fa-solid fa-chart-simple"></i> Analises</a>
+                <a href="maquinas.html" class="nav-item active"><i class="fa-solid fa-desktop"></i> Maquinas</a>
+                <a href="#" class="nav-item"><i class="fa-solid fa-lock"></i> Segurança</a>
+                <a href="#" class="nav-item"><i class="fa-regular fa-user"></i> Usuarios</a>
+            </nav>
+        </div>
+
+        <div class="settings-container">
+            <button class="nav-item btn-theme-toggle" id="theme-toggle" style="background:none; border:none; width:100%; justify-content:start;">
+                <i class="fa-solid fa-moon" id="theme-icon"></i> <span id="theme-text">Modo Noturno</span>
+            </button>
+            <a href="#" class="nav-item" style="padding: 15px 30px 0 30px;">
+                <i class="fa-solid fa-gear"></i> Configurações
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content form-page-content">
+        <div class="form-page-header">
+            <h1 class="page-title">Gerenciar Máquinas</h1>
+            <button class="btn-cancel" onclick="window.location.href='index.html'"><i class="fa-solid fa-arrow-left"></i> Voltar ao Painel</button>
+        </div>
+
+        <div class="form-card">
+            <h2>Cadastrar Nova Máquina</h2>
+            <p class="form-subtitle">Preencha os dados abaixo para registrar um novo equipamento no banco de dados.</p>
+            
+            <form id="form-cadastro">
+                <div class="input-group">
+                    <label for="nome_equipamento">Nome do Equipamento:</label>
+                    <input type="text" id="nome_equipamento" name="nome_equipamento" placeholder="Ex: Torno CNC" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-save btn-large" h>Salvar Máquina no Sistema</button>
+                </div>
+            </form>
+            
+            <div id="mensagem-servidor" style="margin-top: 15px; font-weight: 600; display: none;"></div>
+        </div>
+    </main>
+
+    <script>
+        // ==========================================
+        // MODO NOTURNO (Compartilhado)
+        // ==========================================
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeText = document.getElementById('theme-text');
+
+        function applyTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                themeText.innerText = 'Modo Claro';
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                themeText.innerText = 'Modo Noturno';
+            }
+        }
+
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) { applyTheme(savedTheme); }
+
+        themeToggleBtn.addEventListener('click', () => {
+            let newTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+            applyTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // ==========================================
+        // ENVIO DO FORMULÁRIO PARA O PHP
+        // ==========================================
+        const form = document.getElementById('form-cadastro');
+        const divMensagem = document.getElementById('mensagem-servidor');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Não recarrega a página
+            
+            const formData = new FormData(form);
+            const botaoSalvar = form.querySelector('.btn-save');
+            
+            // Efeito visual de carregamento
+            botaoSalvar.innerText = "Salvando...";
+            botaoSalvar.style.opacity = "0.7";
+
+            try {
+                // Dispara para o config.php
+                // Dispara para o config.php que está na pasta includes
+                const response = await fetch('../includes/config.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const resultado = await response.text(); // Pega o "echo" do PHP
+                
+                // Exibe a mensagem de sucesso
+                divMensagem.style.display = "block";
+                divMensagem.style.color = "var(--green-text)";
+                divMensagem.innerText = resultado;
+                
+                form.reset(); // Limpa o formulário
+
+                // Redireciona de volta para o Dashboard após 2 segundos
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+
+            } catch (error) {
+                divMensagem.style.display = "block";
+                divMensagem.style.color = "var(--red-text)";
+                divMensagem.innerText = "Erro ao conectar com o banco de dados.";
+            } finally {
+                botaoSalvar.innerText = "Salvar Máquina no Sistema";
+                botaoSalvar.style.opacity = "1";
+            }
+        });
+    </script>
+</body>
+</html>

@@ -131,3 +131,93 @@ body.dark-theme .btn-theme-toggle:hover { background-color: rgba(255,255,255,0.0
 
 /* Desabilitado quando está em falha */
 .btn-disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ==========================================
+   PÁGINA DE CADASTRO (maquinas.html)
+   ========================================== */
+   .form-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.form-card {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 40px;
+    max-width: 600px;
+    border-top: 8px solid var(--primary-blue);
+    transition: var(--theme-transition);
+}
+
+.form-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.form-subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.input-group input {
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--body-bg);
+    color: var(--text-main);
+    font-size: 1rem;
+    outline: none;
+    transition: var(--theme-transition);
+}
+
+.input-group input:focus {
+    border-color: var(--primary-blue);
+}
+
+.btn-cancel {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--theme-transition);
+}
+
+.btn-cancel:hover {
+    background-color: var(--body-bg);
+}
+
+.btn-save {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.3s;
+}
+
+.btn-large {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.05rem;
+}

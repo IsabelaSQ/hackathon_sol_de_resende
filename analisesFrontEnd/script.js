@@ -1,18 +1,11 @@
 // Dados iniciais
 let falhas = 0;
-let operacionais = 5;
-let manutencao = 1;
+let operacionais = 0;
+let manutencao = 0;
 let myChart;
 
 // Lista de máquinas exatas
-const maquinasData = [
-    { id: "Maquina 1", nome: "Torno Mecânico Universal", status: "operando", statusOriginal: "operando" },
-    { id: "Maquina 1", nome: "Fresa Ferramentaria ISO 40", status: "operando", statusOriginal: "operando" },
-    { id: "Maquina 1", nome: "Compressor de Ar Parafuso", status: "operando", statusOriginal: "operando" },
-    { id: "Maquina 1", nome: "Furadeira de Coluna G3", status: "manutencao", statusOriginal: "manutencao" },
-    { id: "Maquina 1", nome: "Retificadora Plana", status: "operando", statusOriginal: "operando" },
-    { id: "Maquina 1", nome: "Serra de Fita Industrial", status: "operando", statusOriginal: "operando" }
-];
+const maquinasData = [];
 
 // ==========================================
 // MODO NOTURNO (DARK MODE)
@@ -258,5 +251,62 @@ function atualizarPainel() {
     myChart.update();
 }
 
-renderMachines();
+// ==========================================
+// NOVA FUNÇÃO: BUSCAR MÁQUINAS NA BASE DE DADOS
+// ==========================================
+async function carregarMaquinas() {
+    try {
+        // Atenção ao caminho: ajusta se o ficheiro PHP estiver numa pasta diferente
+        // Exemplo: se o JS está dentro de 'analisesFrontEnd', usamos '../api_maquinas.php' para recuar uma pasta
+        const resposta = await fetch('../includes/api_maquinas.php');
+        const dados = await resposta.json();
+
+        if (dados.erro) {
+            console.error(dados.erro);
+            return;
+        }
+
+        // Mapear os dados que vêm do PHP/SQL para o formato que o nosso JS já usa
+        maquinasData = dados.map(maq => {
+            // A base de dados envia 'Operando', 'Falha', 'Manutenção'
+            // O nosso CSS/JS precisa de 'operando', 'falha', 'manutencao'
+            let statusNormalizado = maq.status_operacional.toLowerCase();
+            if (statusNormalizado === 'manutenção') statusNormalizado = 'manutencao';
+
+            return {
+                id: "Máquina " + maq.id_numerico,
+                nome: maq.nome_equipamento,
+                status: statusNormalizado,
+                statusOriginal: statusNormalizado
+            };
+        });
+
+        // Recalcular os contadores baseados na base de dados real
+        falhas = maquinasData.filter(m => m.status === 'falha').length;
+        operacionais = maquinasData.filter(m => m.status === 'operando').length;
+        manutencao = maquinasData.filter(m => m.status === 'manutencao').length;
+
+        // Mandar desenhar as máquinas no ecrã e atualizar os números/gráfico
+        renderMachines();
+        atualizarPainel();
+
+    } catch (erro) {
+        console.error("Erro de comunicação com o servidor:", erro);
+    }
+}
+
+/* MANTÉM TODAS AS OUTRAS FUNÇÕES AQUI NO MEIO:
+   - applyTheme(), event listener do Modo Noturno
+   - renderMachines()
+   - toggleManutencao()
+   - toggleStatus()
+   - initChart()
+   - atualizarPainel()
+*/
+
+// ==========================================
+// INICIALIZAR O SISTEMA
+// ==========================================
+// Removemos a chamada antiga renderMachines() daqui do fundo
 initChart();
+carregarMaquinas(); // Agora isto inicia o processo todo!

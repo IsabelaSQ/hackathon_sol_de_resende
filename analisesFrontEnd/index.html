@@ -19,8 +19,8 @@
             </div>
 
             <nav class="nav-menu">
-                <a href="#" class="nav-item active"><i class="fa-solid fa-chart-simple"></i> Analises</a>
-                <a href="#" class="nav-item"><i class="fa-solid fa-desktop"></i> Maquinas</a>
+                <a href="index.html" class="nav-item active"><i class="fa-solid fa-chart-simple"></i> Analises</a>
+                <a href="maquinas.html" class="nav-item"><i class="fa-solid fa-desktop"></i> Maquinas</a>
                 <a href="#" class="nav-item"><i class="fa-solid fa-lock"></i> Segurança</a>
                 <a href="#" class="nav-item"><i class="fa-regular fa-user"></i> Usuarios</a>
             </nav>
@@ -65,7 +65,9 @@
 
         <div class="machines-header">
             <h2 class="machines-title">Maquinas Operando <span class="badge-count" id="badge-total">6</span></h2>
-            <button class="btn-add"><i class="fa-solid fa-plus"></i> Adicionar Maquina</button>
+            <button class="btn-add" onclick="window.location.href='maquinas.html'">
+                <i class="fa-solid fa-plus"></i> Adicionar Maquina
+            </button>
         </div>
 
         <div class="machines-grid" id="machine-container">
